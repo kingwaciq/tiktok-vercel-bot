@@ -50,6 +50,10 @@
     button:hover {
       background-color: #ff3b6e;
     }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -65,6 +69,11 @@
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      
+      // Disable button to prevent multiple clicks
+      const button = e.target.querySelector('button');
+      button.disabled = true;
+
       const urlParams = new URLSearchParams(window.location.search);
       const uid = urlParams.get('uid');
       const username = e.target.username.value;
@@ -72,17 +81,26 @@
 
       if (!uid) {
         alert("❗ UID نشته، مهرباني وکړئ له بوټ څخه بېرته لاگ ان وکړئ.");
+        button.disabled = false;
         return;
       }
 
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, uid })
-      });
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, uid })
+        });
 
-      const msg = await res.text();
-      alert(msg);
+        const msg = await res.text();
+        alert(msg);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("❌ یوه ستونزه پېښه شوه.");
+      }
+
+      // Re-enable the button after operation completes
+      button.disabled = false;
     });
   </script>
 </body>
