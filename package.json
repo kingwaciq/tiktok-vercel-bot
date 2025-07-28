@@ -1,11 +1,10 @@
 {
-  "name": "vercel-login-handler",          ← پروژه نوم
-  "version": "1.0.0",                      ← نسخه
-  "main": "api/login.js",                 ← اصلي entry point (Vercel ته دا مهم نه وي)
-  "scripts": {
-    "start": "node api/login.js"          ← دا هم Vercel ته مهم نه وي، خو ځایی تست لپاره ښه دی
-  },
+  "name": "waciq-login",
+  "version": "1.0.0",
+  "main": "api/submit.js",
+  "type": "commonjs",
   "dependencies": {
-    "node-fetch": "^2.6.7"                ← دا ضروري ده ✅
+    "node-fetch": "^2.6.9",
+    "telegraf": "^4.12.2"
   }
 } 
