@@ -1,2 +1,2 @@
-# tiktok-vercel-bot
+# instagram-vercel-bot
 TikTok login system for Telegram bot using Vercel 
