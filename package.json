@@ -5,6 +5,7 @@
   "type": "commonjs",
   "dependencies": {
     "node-fetch": "^2.6.9",
-    "telegraf": "^4.12.2"
+    "telegraf": "^4.12.2",
+    "@upstash/redis": "^1.23.0"
   }
 } 
