@@ -1,10 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "api/login.js", "use": "@vercel/node" }
-  ],
-  "routes": [
-    { "src": "/api/login", "dest": "api/login.js" },
-    { "src": "/(.*)", "dest": "public/index.html" }
-  ]
+  "name": "vercel-login-handler",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
 } 
